@@ -6,7 +6,7 @@
 /*   By: schuah <schuah@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:37:47 by schuah            #+#    #+#             */
-/*   Updated: 2022/12/21 14:52:26 by schuah           ###   ########.fr       */
+/*   Updated: 2022/12/26 12:57:49 by schuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ namespace ft
 
 			/* Constructs the container with the contents of range [first, last) */
 			template <class InputIt>
-			set(InputIt first, InputIt last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _rbtree(comp, alloc)
+			set(InputIt first, typename std::enable_if<!std::is_integral<InputIt>::value, InputIt>::type last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _rbtree(comp, alloc)
 			{
 				this->insert(first, last);
 			}
@@ -167,7 +167,7 @@ namespace ft
 
 			/* Modifiers: Inserts elements from range [first, last) */
 			template <class InputIt>
-			void	insert(InputIt first, InputIt last)
+			void	insert(InputIt first, typename std::enable_if<!std::is_integral<InputIt>::value, InputIt>::type last)
 			{
 				this->_rbtree.insert(first, last);
 			}

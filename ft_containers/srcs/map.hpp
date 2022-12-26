@@ -6,7 +6,7 @@
 /*   By: schuah <schuah@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:37:49 by schuah            #+#    #+#             */
-/*   Updated: 2022/12/23 13:56:38 by schuah           ###   ########.fr       */
+/*   Updated: 2022/12/26 12:57:06 by schuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,7 +286,7 @@ namespace ft
 
 			/* Modifiers: Inserts elements from range [first, last) */
 			template <class InputIt>
-			void	insert(InputIt first, InputIt last)
+			void	insert(InputIt first, typename std::enable_if<!std::is_integral<InputIt>::value, InputIt>::type last)
 			{
 				this->_rbtree.insert(first, last);
 			}

@@ -6,7 +6,7 @@
 /*   By: schuah <schuah@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 14:56:56 by schuah            #+#    #+#             */
-/*   Updated: 2022/12/23 17:31:34 by schuah           ###   ########.fr       */
+/*   Updated: 2022/12/26 12:59:33 by schuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ namespace ft
 
 			/* Modifiers: Inserts elements from rnage [first, last] */
 			template <class InputIt>
-			void	insert(InputIt first, InputIt last)
+			void	insert(InputIt first, typename std::enable_if<!std::is_integral<InputIt>::value, InputIt>::type last)
 			{
 				for (; first != last; ++first)
 					insert(*first);
