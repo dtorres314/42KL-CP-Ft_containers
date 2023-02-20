@@ -6,7 +6,7 @@
 #    By: schuah <schuah@student.42kl.edu.my>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/14 15:35:19 by schuah            #+#    #+#              #
-#    Updated: 2022/12/23 21:30:57 by schuah           ###   ########.fr        #
+#    Updated: 2023/02/20 18:41:59 by schuah           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,21 +30,26 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.cpp
 $(NAME):		$(OBJS)
 				$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
 
+test:
+				make re
+				make vector stack map set
+				rm -rf $(NAME)
+
 vector:
 				$(CXX) $(CXXFLAGS) container_testers/vector.cpp -o $(NAME)
-				./ft_containers
+				./$(NAME)
 
 stack:
 				$(CXX) $(CXXFLAGS) container_testers/stack.cpp -o $(NAME)
-				./ft_containers
+				./$(NAME)
 			
 map:
 				$(CXX) $(CXXFLAGS) container_testers/map.cpp -o $(NAME)
-				./ft_containers
+				./$(NAME)
 
 set:
 				$(CXX) $(CXXFLAGS) container_testers/set.cpp -o $(NAME)
-				./ft_containers
+				./$(NAME)
 
 clean:
 				rm -rf $(OBJS_DIR)
@@ -54,4 +59,4 @@ fclean:			clean
 
 re:				fclean all
 
-.PHONY:			all clean fclean re vector stack map set
+.PHONY:			all clean fclean re test vector stack map set

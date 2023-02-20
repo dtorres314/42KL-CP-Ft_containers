@@ -6,7 +6,7 @@
 /*   By: schuah <schuah@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 13:06:52 by schuah            #+#    #+#             */
-/*   Updated: 2022/12/20 17:32:52 by schuah           ###   ########.fr       */
+/*   Updated: 2023/02/20 18:45:32 by schuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ namespace ft
 
 			pointer	operator->() const
 			{
-				return (&(operator*()));
+				return (&(this->operator*()));
 			};
 
 			/* Advances of decrements the iterator */
@@ -196,7 +196,7 @@ namespace ft
 
 			pointer	operator->() const
 			{
-				return (&(operator*()));
+				return (&(this->operator*()));
 			};
 
 			/* Advances of decrements the iterator */

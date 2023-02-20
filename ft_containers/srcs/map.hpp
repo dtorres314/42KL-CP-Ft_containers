@@ -6,7 +6,7 @@
 /*   By: schuah <schuah@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:37:49 by schuah            #+#    #+#             */
-/*   Updated: 2022/12/26 12:57:06 by schuah           ###   ########.fr       */
+/*   Updated: 2023/02/20 18:43:03 by schuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,17 @@ namespace ft
 			/* Comparisons using key_comp */
 			bool	operator()(const T& x, const T& y) const
 			{
-				return (key_comp()(x.first, y.first));
+				return (this->key_comp()(x.first, y.first));
 			};
 
 			bool	operator()(const Key& x, const T& y) const
 			{
-				return (key_comp()(x, y.first));
+				return (this->key_comp()(x, y.first));
 			};
 			
 			bool	operator()(const T& x, const Key& y) const
 			{
-				return (key_comp()(x.first, y));
+				return (this->key_comp()(x.first, y));
 			};
 
 			/* Swaps the value of _comp */
@@ -157,7 +157,7 @@ namespace ft
 			template <class InputIt>
 			map(InputIt first, typename std::enable_if<!std::is_integral<InputIt>::value, InputIt>::type last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _rbtree(vt_compare(comp), alloc)
 			{
-				insert(first, last);
+				this->insert(first, last);
 			};
 
 			/* Copy constructor */
@@ -201,7 +201,7 @@ namespace ft
 			/* Element access: access or insert specified element */
 			T&	operator[](const Key& key)
 			{
-				return (insert(ft::make_pair(key, T())).first->second);
+				return (this->insert(ft::make_pair(key, T())).first->second);
 			}
 
 			/* Iterators: Returns an iterator to the beginning */

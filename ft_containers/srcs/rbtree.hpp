@@ -6,7 +6,7 @@
 /*   By: schuah <schuah@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/16 14:56:56 by schuah            #+#    #+#             */
-/*   Updated: 2022/12/26 12:59:33 by schuah           ###   ########.fr       */
+/*   Updated: 2023/02/20 19:02:12 by schuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ namespace ft
 			/* Copy constructor */
 			rbtree(const rbtree& other) : _node_alloc(other._node_alloc), _value_alloc(other._value_alloc), _comp(other._comp), _leaf_node(), _leaf_node_ptr(this->end_node()), _size(0)
 			{
-				insert(other.begin(), other.end());
+				this->insert(other.begin(), other.end());
 			};
 
 			/* Destructor */
@@ -138,7 +138,7 @@ namespace ft
 
 				if (child_ref == NULL)
 				{
-					it = insert_pos(child_ref, parent, value);
+					it = this->insert_pos(child_ref, parent, value);
 					inserted = true;
 				}
 				return (ft::make_pair(it, inserted));
@@ -149,11 +149,11 @@ namespace ft
 			{
 				leaf_node_pointer	parent;
 				node_pointer		temp;
-				node_pointer&		child = get_pos_iterator(iterator(pos.base()), parent, value, temp);
+				node_pointer&		child = this->get_pos_iterator(iterator(pos.base()), parent, value, temp);
 				iterator			it(child);
 			
 				if (child == NULL)
-					it = insert_pos(child, parent, value);
+					it = this->insert_pos(child, parent, value);
 				return (it);
 			}
 
@@ -162,7 +162,7 @@ namespace ft
 			void	insert(InputIt first, typename std::enable_if<!std::is_integral<InputIt>::value, InputIt>::type last)
 			{
 				for (; first != last; ++first)
-					insert(*first);
+					this->insert(*first);
 			}
 
 			/* Modifiers: Removes the element at pos */
@@ -175,7 +175,7 @@ namespace ft
 					this->_leaf_node_ptr = next.base();
 				
 				node_pointer	ptr = pos.node_ptr();
-				btree_delete(end_node()->_left, ptr);
+				btree_delete(this->end_node()->_left, ptr);
 				this->_value_alloc.destroy(&ptr->_value);
 				this->_node_alloc.deallocate(ptr, 1);
 				this->_size--;
@@ -186,7 +186,7 @@ namespace ft
 			void	erase(const_iterator first, const_iterator last)
 			{
 				while (first != last)
-					first = erase(first);
+					first = this->erase(first);
 			}
 
 			/* Modifiers: Removes the element (if one exists) with the key */
@@ -197,7 +197,7 @@ namespace ft
 
 				if (it == this->end())
 					return (0);
-				erase(it);
+				this->erase(it);
 				return (1);
 			}
 
@@ -230,28 +230,28 @@ namespace ft
 			iterator	find(const Key& key)
 			{
 				leaf_node_pointer	ptr = this->get_node_pointer(key);
-				return (ptr == NULL) ? iterator(end_node()) : iterator(ptr);
+				return (ptr == NULL) ? iterator(this->end_node()) : iterator(ptr);
 			}
 
 			template <class Key>
 			const_iterator	find(const Key& key) const
 			{
 				leaf_node_pointer	ptr = this->get_node_pointer(key);
-				return (ptr == NULL) ? const_iterator(end_node()) : const_iterator(ptr);
+				return (ptr == NULL) ? const_iterator(this->end_node()) : const_iterator(ptr);
 			}
 
 			/* Compares the keys to key */
 			template <class Key>
 			pair<iterator, iterator>	equal_range(const Key& key)
 			{
-				pair<leaf_node_pointer, leaf_node_pointer>	range = get_equal_range(key);
+				pair<leaf_node_pointer, leaf_node_pointer>	range = this->get_equal_range(key);
 				return (ft::make_pair(iterator(range.first), iterator(range.second)));
 			}
 
 			template <class Key>
 			pair<const_iterator, const_iterator>	equal_range(const Key& key) const
 			{
-				pair<leaf_node_pointer, leaf_node_pointer>	range = get_equal_range(key);
+				pair<leaf_node_pointer, leaf_node_pointer>	range = this->get_equal_range(key);
 				return (ft::make_pair(const_iterator(range.first), const_iterator(range.second)));
 			}
 
@@ -259,26 +259,26 @@ namespace ft
 			template <class Key>
 			iterator	lower_bound(const Key& key)
 			{
-				return (iterator(get_lower_bound(key)));
+				return (iterator(this->get_lower_bound(key)));
 			}
 
 			template <class Key>
 			const_iterator	lower_bound(const Key& key) const
 			{
-				return (const_iterator(get_lower_bound(key)));
+				return (const_iterator(this->get_lower_bound(key)));
 			}
 
 			/* Lookup: Returns an iterator pointing to the first element that is greater than key */
 			template <class Key>
 			iterator	upper_bound(const Key& key)
 			{
-				return (iterator(get_upper_bound(key)));
+				return (iterator(this->get_upper_bound(key)));
 			}
 
 			template <class Key>
 			const_iterator	upper_bound(const Key& key) const
 			{
-				return (iterator(get_upper_bound(key)));
+				return (iterator(this->get_upper_bound(key)));
 			}
 
 			/* Observers: Returns the function that compares keys in objects of type value_type */
@@ -300,8 +300,8 @@ namespace ft
 					return ;
 				this->destroy(node->_left);
 				this->destroy(node->_right);
-				_value_alloc.destroy(&node->_value);
-				_node_alloc.deallocate(node, 1);
+				this->_value_alloc.destroy(&node->_value);
+				this->_node_alloc.deallocate(node, 1);
 			}
 
 			/* Helper function: Returns the end node */
@@ -325,13 +325,13 @@ namespace ft
 
 				while (ptr != NULL)
 				{
-					if (value_comp()(key, ptr->_value))
+					if (this->value_comp()(key, ptr->_value))
 					{
 						ub = static_cast<leaf_node_pointer>(ptr);
 						lb = static_cast<leaf_node_pointer>(ptr);
 						ptr = ptr->_left;
 					}
-					else if (value_comp()(ptr->_value, key))
+					else if (this->value_comp()(ptr->_value, key))
 						ptr = ptr->_right;
 					else
 					{
@@ -353,7 +353,7 @@ namespace ft
 
 				while (ptr != NULL)
 				{
-					if (value_comp()(ptr->_value, key))
+					if (this->value_comp()(ptr->_value, key))
 						ptr = ptr->_right;
 					else
 					{
@@ -373,7 +373,7 @@ namespace ft
 				{
 					if (this->value_comp()(key, ptr->_value))
 						ptr = ptr->_left;
-					else if (value_comp()(ptr->_value, key))
+					else if (this->value_comp()(ptr->_value, key))
 						ptr = ptr->_right;
 					else
 						return (static_cast<leaf_node_pointer>(ptr));
@@ -390,7 +390,7 @@ namespace ft
 
 				while (node != NULL)
 				{
-					if (value_comp()(key, node->_value))
+					if (this->value_comp()(key, node->_value))
 					{
 						if (node->_left != NULL)
 						{
@@ -403,7 +403,7 @@ namespace ft
 							return (node->_left);
 						}
 					}
-					else if (value_comp()(node->_value, key))
+					else if (this->value_comp()(node->_value, key))
 					{
 						if (node->_right != NULL)
 						{
@@ -422,7 +422,7 @@ namespace ft
 						return (*node_ptr);
 					}
 				}
-				parent = static_cast<leaf_node_pointer>(end_node());
+				parent = static_cast<leaf_node_pointer>(this->end_node());
 				return (parent->_left);
 			}
 
@@ -430,10 +430,10 @@ namespace ft
 			template<class Key>
 			node_pointer&	get_pos_iterator(iterator it, leaf_node_pointer& parent, const Key& key, node_pointer& temp) const
 			{
-				if (it == this->end() || value_comp()(key, *it))
+				if (it == this->end() || this->value_comp()(key, *it))
 				{
 					const_iterator	prev = it;
-					if (prev == begin() || value_comp()(*--prev, key))
+					if (prev == this->begin() || this->value_comp()(*--prev, key))
 					{
 						if (it.base()->_left == NULL)
 						{
@@ -446,13 +446,13 @@ namespace ft
 							return (prev.node_ptr()->_right);
 						}
 					}
-					return (get_pos_key(parent, key));
+					return (this->get_pos_key(parent, key));
 				}
-				else if (value_comp()(*it, key))
+				else if (this->value_comp()(*it, key))
 				{
 					const_iterator	next = it;
 					++next;
-					if (next == end() || value_comp()(key, *next))
+					if (next == this->end() || this->value_comp()(key, *next))
 					{
 						if (it.node_ptr()->_right == NULL)
 						{
@@ -465,7 +465,7 @@ namespace ft
 							return (parent->_left);
 						}
 					}
-					return (get_pos_key(parent, key));
+					return (this->get_pos_key(parent, key));
 				}
 				parent = it.base();
 				temp = it.node_ptr();
@@ -481,7 +481,7 @@ namespace ft
 
 				while (ptr != NULL)
 				{
-					if (value_comp()(key, ptr->_value))
+					if (this->value_comp()(key, ptr->_value))
 					{
 						pos = static_cast<leaf_node_pointer>(ptr);
 						ptr = ptr->_left;
