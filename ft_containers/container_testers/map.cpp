@@ -687,7 +687,7 @@ int	main(void)
 		i = (ft_m1 <= ft_m1);
 		i = (ft_m1 > ft_m1);
 		i = (ft_m1 >= ft_m1);
-		std::swap(ft_m1, ft_m3);
+		ft::swap(ft_m1, ft_m3);
 
 		end_time = clock();
 		ft_elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
