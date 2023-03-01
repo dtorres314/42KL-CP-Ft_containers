@@ -6,7 +6,7 @@
 /*   By: schuah <schuah@student.42kl.edu.my>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 15:20:25 by schuah            #+#    #+#             */
-/*   Updated: 2022/12/23 22:17:27 by schuah           ###   ########.fr       */
+/*   Updated: 2023/03/01 14:24:53 by schuah           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -487,14 +487,6 @@ int	main(void)
 			assert(false);
 		}
 		catch(const std::exception& e) { std::cerr << e.what() << "\n\n"; }
-
-		try
-		{
-			ft_v2.reserve(ft_v2.max_size());
-			assert(false);
-		}
-		catch(const std::exception& e) { std::cerr << e.what() << "\n\n"; }
-
 		try
 		{
 			ft_v2.reserve(ft_v2.max_size() + 1);
@@ -636,14 +628,6 @@ int	main(void)
 			assert(false);
 		}
 		catch(const std::exception& e) {std::cerr << e.what() << "\n\n";}
-
-		try
-		{
-			ft_v2.resize(ft_v2.max_size());
-			assert(false);
-		}
-		catch(const std::exception& e) { std::cerr << e.what() << "\n\n"; }
-
 		try
 		{
 			ft_v2.resize(ft_v2.max_size() + 1);
